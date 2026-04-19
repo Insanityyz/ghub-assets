@@ -446,6 +446,8 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:10px;box-shado
                         <div class=custom-dropdown-option data-value=gemini-3.1-flash-lite-preview>Gemini 3.1 Lite Preview</div>
                         <div class=custom-dropdown-option data-value=gemini-2.5-flash-lite>Gemini 2.5 Flash Lite</div>
                         <div class=custom-dropdown-group-label>Gemma</div>
+                        <div class=custom-dropdown-option data-value=gemma-4-26b-a4b-it>Gemma 4 26B A4B IT (Exp)</div>
+                        <div class=custom-dropdown-option data-value=gemma-4-31b-it>Gemma 4 31B IT</div>
                         <div class=custom-dropdown-option data-value=gemma-3-1b-it>Gemma 3 1B IT</div>
                         <div class=custom-dropdown-option data-value=gemma-3-4b-it>Gemma 3 4B IT</div>
                         <div class=custom-dropdown-option data-value=gemma-3n-e4b-it>Gemma 3n (Mobile)</div>
@@ -462,6 +464,8 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:10px;box-shado
             <button class="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 font-semibold hover:bg-gray-200 py-2.5 text-sm transition-colors w-full dark:text-orange-400 text-orange-600" id=screen-monitor-btn><svg class="h-4 w-4 mr-2" fill=none viewBox="0 0 24 24" stroke=currentColor stroke-width=2><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap=round stroke-linejoin=round/></svg><span id=monitor-text>Screenshare</span></button>
             <button class="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 font-semibold hover:bg-gray-200 py-2.5 text-sm transition-colors w-full" id=settings-btn><svg class="h-4 w-4 mr-2" fill=none viewBox="0 0 24 24" stroke=currentColor stroke-width=2><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap=round stroke-linejoin=round/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap=round stroke-linejoin=round/></svg>Settings</button>
             <button class="flex items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 font-semibold hover:bg-gray-200 py-2.5 text-sm transition-colors w-full" id=whats-new-btn><svg class="h-4 w-4 mr-2" fill=none viewBox="0 0 24 24" stroke=currentColor stroke-width=2><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap=round stroke-linejoin=round/></svg>Updates</button>
+            <button class="flex items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 font-semibold hover:bg-blue-100 py-2.5 text-sm transition-colors w-full mt-2 text-blue-600" id=download-app-btn><svg class="h-4 w-4 mr-2" fill=none viewBox="0 0 24 24" stroke=currentColor stroke-width=2><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap=round stroke-linejoin=round/></svg>Download Locally (Offline)</button>
+
             <div class="pt-3 border-gray-200/50 border-t dark:border-gray-700/50 mt-3" id=recent-chats-section>
                 <div class="font-bold text-xs text-gray-500 mb-2 ml-1 tracking-wider uppercase">Recent</div>
                 <div class="max-h-[250px] overflow-y-auto space-y-0.5" id=recent-chats-list></div>
@@ -501,7 +505,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:10px;box-shado
 
 <script>
 const APP_VERSION = "2.8";
-const REPO_BASE = "https://raw.githubusercontent.com/Insanityyz/ghub-assets/main";
+const REPO_BASE = "https://cdn.jsdelivr.net/gh/Insanityyz/ghub-assets@main";
 const dbPromise = new Promise((resolve, reject) => { const r = indexedDB.open('UnliminiDB', 2); r.onupgradeneeded = e => { const db = e.target.result; if (!db.objectStoreNames.contains('store')) db.createObjectStore('store'); }; r.onsuccess = e => resolve(e.target.result); r.onerror = e => reject(e); });
 const idb = { async get(k) { const db = await dbPromise; return new Promise((r, j) => { const t = db.transaction('store', 'readonly'); const q = t.objectStore('store').get(k); q.onsuccess = () => r(q.result); q.onerror = () => j(q.error); }); }, async set(k, v) { const db = await dbPromise; return new Promise((r, j) => { const t = db.transaction('store', 'readwrite'); t.objectStore('store').put(v, k); t.oncomplete = () => r(); t.onerror = () => j(t.error); }); }, async clear() { const db = await dbPromise; return new Promise((r, j) => { const t = db.transaction('store', 'readwrite'); t.objectStore('store').clear(); t.oncomplete = () => r(); t.onerror = () => j(t.error); }); } };
 const MAX_IMAGES = 10, MAX_FILE_SIZE = 20 * 1024 * 1024, MAX_RECENT_CHATS = 200, TWO_WEEKS_MS = 14 * 24 * 60 * 60 * 1000;
@@ -556,7 +560,48 @@ function closeGalleryPreview() { $('gallery-preview-overlay').classList.add('hid
 function findChatById(id) { if (currentChat.id === id) return currentChat; let c = recentChats.find(x => x.id === id); if (c) return c; c = archivedChats.find(x => x.id === id); return c || null; }
 async function loadChatById(id) { if (currentChat.id === id) { renderChatHistory(); updateChatTitleDisplay(); renderRecentChats(); return; } if (currentChat.activeId) await addCurrentChatToRecent(); let chat = recentChats.find(c => c.id === id) || archivedChats.find(c => c.id === id); if (!chat) return; currentChat = JSON.parse(JSON.stringify(chat)); isFirstMessage = !currentChat.activeId; await saveCurrentChatState(); renderChatHistory(); updateChatTitleDisplay(); renderRecentChats(); }
 async function processMessage(text, imgs, preProcessedImages) { const now = Date.now(); messageTimestamps = messageTimestamps.filter(t => now - t < 2000); if (isRateLimited) return; if (messageTimestamps.length >= 3) { isRateLimited = true; $('send-btn').disabled = true; $('rate-limit-warning').classList.remove('hidden'); let c = 10; $('rate-limit-countdown').textContent = c; rateLimitTimer = setInterval(() => { c--; $('rate-limit-countdown').textContent = c; if (c <= 0) { clearInterval(rateLimitTimer); isRateLimited = false; $('send-btn').disabled = false; $('rate-limit-warning').classList.add('hidden'); messageTimestamps = []; } }, 1000); return; } messageTimestamps.push(now); $('welcome-message').classList.add('hidden'); $('send-btn').disabled = true; $('loading-indicator').classList.remove('hidden'); const modelId = selectedModelValue; if (!currentChat.id) currentChat.id = generateChatId(); const shouldGenerateTitle = isFirstMessage && currentChat.title === "New Chat"; isFirstMessage = false; let b64 = []; if (preProcessedImages && preProcessedImages.length) b64 = preProcessedImages.map(im => ({ data: im.data, mime_type: im.mime_type })); else { for (let f of imgs) { try { const co = await compressImage(f); b64.push({ data: co.dataUrl.split(',')[1], mime_type: co.mime }); } catch (e) {} } } const pId = currentChat.activeId; const uid = 'msg_' + Date.now(); currentChat.nodes[uid] = { id: uid, role: 'user', text, images: b64, parentId: pId, children: [] }; if (pId) currentChat.nodes[pId].children.push(uid); else currentChat.rootNodes.push(uid); currentChat.activeId = uid; renderChatHistory(); const aiEl = addMessageToUI('ai', '', modelId, true, 't_ai'); try { let pts = [], eTxt = text; if (appSettings.personalization.aiRole) eTxt = `${appSettings.personalization.aiRole}\n\n${eTxt}`; if (appSettings.personalization.userInfo) eTxt = `User Info: ${appSettings.personalization.userInfo}\n\n${eTxt}`; if (shouldGenerateTitle) eTxt = `[System: First message of chat. You MUST begin your response with exactly "[TITLE: <your 2-6 word short title>]" on the very first line, followed by a newline, then your actual response.]\n\n` + eTxt; if (eTxt) pts.push({ text: eTxt }); b64.forEach(i => pts.push({ inline_data: i })); let hist = [], c2 = currentChat.nodes[pId], pa = []; while (c2) { pa.unshift(c2); c2 = currentChat.nodes[c2.parentId]; } pa.forEach(n => { let p = []; if (n.text) p.push({ text: n.text }); if (n.images) n.images.forEach(i => p.push({ inline_data: i })); hist.push({ role: n.role, parts: p }); }); const bd = { contents: [...hist, { role: "user", parts: pts }], generationConfig: { temperature: appSettings.modelParams.temperature, topK: appSettings.modelParams.topK, topP: appSettings.modelParams.topP } }; const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${getApiKey()}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(bd) }); const data = await res.json(); if (!res.ok) throw new Error(data.error?.message || "API Error"); let out = "No response.", tokenUsageStr = ""; if (data.candidates && data.candidates[0].content?.parts[0]?.text) { out = data.candidates[0].content.parts[0].text; if (data.usageMetadata) tokenUsageStr = `Tokens: ${data.usageMetadata.totalTokenCount} (P: ${data.usageMetadata.promptTokenCount}, C: ${data.usageMetadata.candidatesTokenCount})`; } if (shouldGenerateTitle) { const tm = out.match(/^\[TITLE:\s*(.*?)\]/i); if (tm) { currentChat.title = tm[1].trim(); out = out.replace(/^\[TITLE:\s*(.*?)\]\s*/i, '').trim(); } else { const ln = out.split('\n'); if (ln[0].includes('TITLE:')) { currentChat.title = ln[0].replace(/.*?TITLE:\s*/, '').replace(/\]/, '').trim(); out = ln.slice(1).join('\n').trim(); } else currentChat.title = text.substring(0, 30) + "..."; } updateChatTitleDisplay(); saveCurrentChatState().then(addCurrentChatToRecent); } const aid = 'msg_' + (Date.now() + 1); currentChat.nodes[aid] = { id: aid, role: 'model', text: out, images: [], parentId: uid, children: [], modelId, tokenUsage: tokenUsageStr }; currentChat.nodes[uid].children.push(aid); currentChat.activeId = aid; renderChatHistory(); await saveCurrentChatState(); await addCurrentChatToRecent(); } catch (err) { aiEl.innerHTML = `<span class="text-red-500">Error: ${err.message}</span>`; if (pId) currentChat.nodes[pId].children = currentChat.nodes[pId].children.filter(i => i !== uid); else currentChat.rootNodes = currentChat.rootNodes.filter(i => i !== uid); delete currentChat.nodes[uid]; currentChat.activeId = pId; } finally { $('send-btn').disabled = false; $('loading-indicator').classList.add('hidden'); } }
-async function checkForUpdates() { try { const res = await fetch(`${REPO_BASE}/v.txt?t=${Date.now()}`); if (!res.ok) return; const remoteVersion = (await res.text()).trim(); if (remoteVersion && remoteVersion !== APP_VERSION) { const indicator = document.createElement('div'); indicator.className = 'update-indicator'; indicator.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'; indicator.title = 'Update available'; indicator.onclick = () => { showConfirm("Update Available", `Version ${remoteVersion} is available. You're on ${APP_VERSION}. Download the latest?`, "Download", "confirmation-confirm", async () => { let found = null; const tryVersions = []; let [maj, min] = remoteVersion.split('.').map(Number); tryVersions.push(remoteVersion); for (let v = parseFloat(APP_VERSION) + 0.1; v <= 5.0; v = Math.round((v + 0.1) * 10) / 10) { const vs = v.toFixed(1); if (vs !== remoteVersion) tryVersions.push(vs); } for (const ver of tryVersions) { try { const r = await fetch(`${REPO_BASE}/release/${ver}.html`, { method: 'HEAD' }); if (r.ok) { found = ver; break; } } catch (e) {} } if (found) { window.open(`${REPO_BASE}/release/${found}.html`, '_blank'); } else showNotification("Could not find update file.", "error"); }); }; document.body.appendChild(indicator); } } catch (e) {} }
+async function downloadRemoteFile(url, filename) {
+    try {
+        const r = await fetch(url);
+        const b = await r.blob();
+        const u = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = u;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(u);
+    } catch (e) {
+        showNotification("Download failed. Opening in tab instead.", "error");
+        window.open(url, '_blank');
+    }
+}
+async function checkForUpdates() {
+    try {
+        let latestFound = null;
+        const currentV = parseFloat(APP_VERSION);
+        for (let i = 1; i <= 5; i++) {
+            const nextV = (currentV + (i * 0.1)).toFixed(1);
+            try {
+                const r = await fetch(`${REPO_BASE}/release/${nextV}.html`, { method: 'HEAD', cache: 'no-store' });
+                if (r.ok) latestFound = nextV;
+            } catch (e) {}
+        }
+        if (latestFound) {
+            const indicator = document.createElement('div');
+            indicator.className = 'update-indicator';
+            indicator.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            indicator.title = `Update ${latestFound} available`;
+            indicator.onclick = () => {
+                showConfirm("Update Available", `Version ${latestFound} found. Download directly?`, "Download", "confirmation-confirm", () => {
+                    downloadRemoteFile(`${REPO_BASE}/release/${latestFound}.html`, `Unlimini_v${latestFound}.html`);
+                });
+            };
+            document.body.appendChild(indicator);
+        }
+    } catch (e) {}
+}
 function startRename() { $('chat-title').classList.add('hidden'); $('pencil-rename').classList.add('hidden'); $('rename-input').classList.remove('hidden'); $('rename-input').value = currentChat.title; $('rename-input').focus(); $('rename-input').select(); }
 async function finishRename() { const t = $('rename-input').value.trim(); if (t) { currentChat.title = t; await saveCurrentChatState(); await addCurrentChatToRecent(); updateChatTitleDisplay(); } $('rename-input').classList.add('hidden'); $('chat-title').classList.remove('hidden'); $('pencil-rename').classList.remove('hidden'); }
 function setupEventListeners() {
@@ -599,6 +644,17 @@ function setupEventListeners() {
     $('whats-new-btn').onclick = () => openModal($('whats-new-modal'));
     $('updates-btn-mini').onclick = () => openModal($('whats-new-modal'));
     $('settings-btn').onclick = () => openModal($('settings-modal'));
+        $('download-app-btn').onclick = () => {
+        const h = '<!DOCTYPE html>' + document.documentElement.outerHTML;
+        const b = new Blob([h], { type: 'text/html' });
+        const u = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = u;
+        a.download = `Unlimini_v${APP_VERSION}.html`;
+        a.click();
+        URL.revokeObjectURL(u);
+        showNotification("Local version downloaded!", "success");
+    };
     $('settings-btn-mini').onclick = () => openModal($('settings-modal'));
     $('image-modal').onclick = e => { if (e.target === $('image-modal')) { $('image-modal').classList.remove('active'); setTimeout(() => $('image-modal').style.display = 'none', 200); } };
     $('user-gradient-selector').querySelectorAll('button').forEach(b => b.onclick = () => { appSettings.userTheme.gradient = b.dataset.gradient; settingsChanged = true; applySettingsToDOM(); });
